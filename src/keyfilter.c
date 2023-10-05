@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-    // proměnné
+    // variables
     char *input = argv[1];
     char address[MAX_LINE_LENGTH];
     char possibleChars[ALPHABET_LENGTH];
@@ -32,7 +32,10 @@ int main(int argc, char *argv[])
             // printf("%c", address[i]);
         }
 
-        if (i == (int)strlen(input))
+        // checking if for loop matched the correct string with input 
+        // and the character is not already in the list of possible chars
+        char *result = strchr(possibleChars, address[i]);
+        if (i == (int)strlen(input) && result == NULL)
         {
             possibleChars[possibleCharsInputIndex] = address[i];
             possibleCharsInputIndex++;
