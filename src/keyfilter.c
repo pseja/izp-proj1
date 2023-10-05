@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     char *input = argv[1];
     char address[MAX_LINE_LENGTH];
     char possibleChars[ALPHABET_LENGTH];
+    int possibleCharsInputIndex = 0;
 
     if (argc < 2)
     {
@@ -18,22 +19,34 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    printf("input: %s\n", input);
+    // printf("input: %s\n", input);
 
     // Loads lines to address variable until end of file is reached 
     while (fgets(address, MAX_LINE_LENGTH, stdin) != NULL)
     {
-        for (int i = 0; i < (int)strlen(address); i++)
+        int i;
+        for (i = 0; i < (int)strlen(input); i++)
         {
-            printf("%c", address[i]);
+            if (input[i] != address[i])
+                break;
+            // printf("%c", address[i]);
+        }
+
+        if (i == (int)strlen(input))
+        {
+            possibleChars[possibleCharsInputIndex] = address[i];
+            possibleCharsInputIndex++;
         }
     }
 
-    // print possible character
+    // print first ten possible characters (going to be changing this later, now only for testing)
     for (int k = 0; k < 10; k++)    
     {
-        printf("%c\n", possibleChars[k]);
+        if (possibleChars[k] == 0)
+            continue;
+        printf("%c", possibleChars[k]);
     }
+    printf("\n");
 
     return 0;
 }
