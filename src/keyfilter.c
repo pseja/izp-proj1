@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define MAX_LINE_LENGTH 100
 #define ALPHABET_LENGTH 26
@@ -27,17 +28,17 @@ int main(int argc, char *argv[])
         int i;
         for (i = 0; i < (int)strlen(input); i++)
         {
-            if (input[i] != address[i])
+            if (toupper(input[i]) != toupper(address[i]))
                 break;
             // printf("%c", address[i]);
         }
 
         // checking if for loop matched the correct string with input 
         // and the character is not already in the list of possible chars
-        char *result = strchr(possibleChars, address[i]);
+        char *result = strchr(possibleChars, toupper(address[i]));
         if (i == (int)strlen(input) && result == NULL)
         {
-            possibleChars[possibleCharsInputIndex] = address[i];
+            possibleChars[possibleCharsInputIndex] = toupper(address[i]);
             possibleCharsInputIndex++;
         }
     }
