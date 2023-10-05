@@ -8,19 +8,13 @@
 
 int main(int argc, char *argv[])
 {
-    // variables
     char *input = argv[1];
     char address[MAX_LINE_LENGTH];
     char possibleChars[ALPHABET_LENGTH];
     int possibleCharsInputIndex = 0;
 
     if (argc < 2)
-    {
-        printf("No arguments passed!\n");
-        return 1;
-    }
-
-    // printf("input: %s\n", input);
+        input = "";
 
     // Loads lines to address variable until end of file is reached 
     while (fgets(address, MAX_LINE_LENGTH, stdin) != NULL)
@@ -30,7 +24,6 @@ int main(int argc, char *argv[])
         {
             if (toupper(input[i]) != toupper(address[i]))
                 break;
-            // printf("%c", address[i]);
         }
 
         // checking if for loop matched the correct string with input 
