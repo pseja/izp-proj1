@@ -11,8 +11,12 @@ int main(int argc, char *argv[])
     char *input = argv[1];
     char address[MAX_LINE_LENGTH];
     char possibleChars[ALPHABET_LENGTH];
-    int possibleCharsInputIndex = 0;
+
+    for (int i = 0; i < ALPHABET_LENGTH; i++)
+        possibleChars[i] = '\0';
+
     char possibleString[MAX_LINE_LENGTH];
+    int found = 0;
 
     if (argc < 2)
         input = "";
@@ -29,33 +33,38 @@ int main(int argc, char *argv[])
             }
         }
 
-        // checking if for loop matched the correct string with input 
-        // and the character is not already in the list of possible chars
-        char *isCharInArray = strchr(possibleChars, toupper(address[i]));
-        if (i == (int)strlen(input) && isCharInArray == NULL)
+        // checking if for loop matched the correct string with input
+        if (i == (int)strlen(input))
         {
-            possibleChars[possibleCharsInputIndex] = toupper(address[i]);
-            possibleCharsInputIndex++;
-
             // save the first thing that gets passed into possibleChars,
             // for when that thing is the only one passed there i know
             // what is the whole address
-            if (strlen(possibleChars) == 1)
+            if (found == 0)
                 strcat(possibleString, address);
+
+            found++;
+            int inputIndex = toupper(address[i]) - 'A';
+            possibleChars[inputIndex] = toupper(address[i]);
         }
     }
 
-    if (strlen(possibleChars) == 0)
+    if (found == 0)
     {
         printf("Not found\n");
     }
-    else if (strlen(possibleChars) == 1)
+    else if (found == 1)
     {
         printf("Found: %s\n", possibleString);
     }
     else
     {
-        printf("Enable: %s\n", possibleChars);
+        printf("Enable: ");
+        for (int i = 0; i < ALPHABET_LENGTH; i++)
+        {
+            if (possibleChars[i] != '\0')
+                printf("%c", possibleChars[i]);
+        }
+        printf("\n");
     }
 
     return 0;
