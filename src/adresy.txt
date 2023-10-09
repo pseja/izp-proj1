@@ -1,6 +1,32 @@
-Brno
-Bratislava
-Olomouc
-Ostrava
 Praha
-Bonifac
+Brno
+Ostrava
+Plzen
+Liberec
+Olomouc
+Ceske Budejovice
+Hradec Kralove
+Pardubice
+Usti nad Labem
+Zlin
+Havirov
+Kladno
+Most
+Opava
+Frydek-Mistek
+Jihlava
+Teplice
+Karvina
+Karlovy Vary
+Decin
+Chomutov
+Vyskov
+Melnik
+Blansko
+Nachod
+Brandys nad Labem-Stara Boleslav
+Brandys nad Labem-Nova Boleslav
+Jirkov
+Zatec
+Kralupy nad Vltavou
+Kadan
