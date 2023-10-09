@@ -2,7 +2,7 @@
 #
 # Tests for 1. IZP project [2023]
 # Author: _ramb0_
-# test_03.txt author: pseja
+# test_03.txt & test_04.txt author: pseja
 # Usage:
 #     ./test_keyfilter.sh
 
@@ -81,6 +81,12 @@ echo -e "TohleJeTestNaStoCharakteruDlouhejRadekJestliNahodouJsiTamNeudelalChybic
 
 run_test "test_03.txt" "to" "Found: TOHLEJETESTNASTOCHARAKTERUDLOUHEJRADEKJESTLINAHODOUJSITAMNEUDELALCHYBICKUFRAJEREJUSTASKINGYOUKNOWHEH"
 
+# Test special characters
+echo -e " \n1\n2\n3\n!\n:\n_\n;\n~\nA\nB\nc" > test_04.txt
+
+run_test "test_04.txt" "" "Enable:  !123:;ABC_~"
+
+rm test_04.txt
 rm test_03.txt
 rm test_02.txt
 rm test_01.txt
