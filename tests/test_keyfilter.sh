@@ -86,6 +86,12 @@ echo -e " \n1\n2\n3\n!\n:\n_\n;\n~\nA\nB\nc" > test_04.txt
 
 run_test "test_04.txt" "" "Enable:  !123:;ABC_~"
 
+# Test 100+ character long address
+echo -e "TohleJeTestNaVicJakStoCharakteruDlouhejRadekJestliNahodouJsiTamNeudelalChybickuFrajereJustAskingYouKnowHeh" > test_05.txt
+
+run_test "test_05.txt" "" ""
+
+rm test_05.txt
 rm test_04.txt
 rm test_03.txt
 rm test_02.txt

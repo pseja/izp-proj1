@@ -1,11 +1,23 @@
+/*
+ * @file keyfilter.c
+ * @author Lukáš Pšeja (xpsejal00)
+ * @date 2023-10-18
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <unistd.h>
 
-#define MAX_LINE_LENGTH 103 // maximum length of line + '\0' + '\n' + '\r'
+#define MAX_LINE_LENGTH 103 // maximum length of line + '\0', '\n', '\r', has to be longer by 1 or 2 to later check if the line is longer
 #define MAX_UNIQUE_CHARS 69 // ascii characters from 32 to 126 without small letters
+
+// Error codes
+#define ERR_UNEXPECTED_CHAR -1
+#define ERR_OK 0
+#define ERR_FAIL 1
+#define ERR_TOO_MANY_ARGS 2
+#define ERR_TOO_LONG_LINE 3
 
 int handleInput(int argc, char **input);
 int calculateInputIndex(char c);
@@ -13,25 +25,19 @@ void handleOutput(int found, char *possibleString, char *possibleChars);
 
 int handleInput(int argc, char **input)
 {
-    // Checks if a file was passed as an argument to stdin
-    if (isatty(STDIN_FILENO))
-    {
-        printf("No file passed to stdin.\n");
-        return -1;
-    }
-
-    // No arguments passed except the program name
+    // No arguments passed except the program name and file
+    // could check with unistd.h if file was passed through terminal
+    // but the library works only for unix systems
     if (argc == 1)
     {
         *input = "";
     }
     else if (argc > 2)
     {
-        printf("Too many arguments.\n");
-        return -2;
+        fprintf(stderr, "Too many arguments.\n");
+        return ERR_TOO_MANY_ARGS;
     }
-
-    return 0; // OK
+    return ERR_OK;
 }
 
 // Moving the ascii table to index 0 from whitespace(32) to `(96)
@@ -40,16 +46,16 @@ int handleInput(int argc, char **input)
 // to ~(126)
 int calculateInputIndex(char c)
 {
-    if (c >= 32 && c <= 96)
+    if (c >= ' ' && c <= '`')
     {
-        return c - 32;
+        return c - ' ';
     }
-    else if (c >= 123 && c <= 126)
+    else if (c >= '{' && c <= '~')
     {
-        return c - 58;
+        return c - ':';
     }
     fprintf(stderr, "Unexpected character\n");
-    return -1;
+    return ERR_UNEXPECTED_CHAR;
 }
 
 void handleOutput(int found, char *possibleString, char *possibleChars)
@@ -84,10 +90,10 @@ int main(int argc, char *argv[])
 {
     char *input = argv[1];
 
-    // Check if the input is correct
-    if (handleInput(argc, &input) != 0)
+    // Check if the input is valid
+    if (handleInput(argc, &input) != ERR_OK)
     {
-        return 1;
+        return ERR_FAIL;
     }
 
     char address[MAX_LINE_LENGTH];
@@ -102,9 +108,15 @@ int main(int argc, char *argv[])
         possibleChars[i] = '\0';
     }
 
-    // Loads lines to address variable until end of file is reached 
+    // Loads lines to address variable until end of file is reached
     while (fgets(address, MAX_LINE_LENGTH, stdin) != NULL)
     {
+        if (strlen(address) > MAX_LINE_LENGTH - 2)
+        {
+            fprintf(stderr, "Found line longer than the maximum line length\n");
+            return ERR_TOO_LONG_LINE;
+        }
+
         int i;
 
         for (i = 0; i < lengthOfInput; i++)
@@ -116,10 +128,10 @@ int main(int argc, char *argv[])
             }
         }
 
-        // If the input is the same length + 1 (because of '\0' in address) 
+        // If the input is the same length + 1 (because of '\0' in address)
         // as the address and for loop passed all letters
         // we have found the address we were looking for
-        if (strlen(address) == strlen(input)+1 && i == lengthOfInput)
+        if (strlen(address) == strlen(input) + 1 && i == lengthOfInput)
         {
             strcat(possibleString, address);
             found = 1;
@@ -139,14 +151,14 @@ int main(int argc, char *argv[])
             found++;
             // Calculate where to put the current character
             int inputIndex = calculateInputIndex(toupper(address[i]));
-            if (inputIndex == -1)
+            if (inputIndex == ERR_UNEXPECTED_CHAR)
             {
-                return 2;
+                return ERR_FAIL;
             }
             possibleChars[inputIndex] = toupper(address[i]);
         }
     }
     handleOutput(found, possibleString, possibleChars);
 
-    return 0;
+    return ERR_OK;
 }
