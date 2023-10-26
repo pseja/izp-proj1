@@ -2,6 +2,7 @@
  * @file keyfilter.c
  * @author Lukáš Pšeja (xpsejal00)
  * @date 2023-10-18
+ * @brief Implements automatic keyboard character bidding based on input
  */
 
 #include <stdio.h>
@@ -19,6 +20,7 @@
 #define ERR_TOO_MANY_ARGS 2
 #define ERR_TOO_LONG_LINE 3
 
+// Function prototypes
 int handleInput(int argc, char **input);
 int calculateInputIndex(char c);
 void handleOutput(int found, char *possibleString, char *possibleChars);
@@ -43,7 +45,8 @@ int handleInput(int argc, char **input)
 // Moving the ascii table to index 0 from whitespace(32) to `(96)
 // skipping small letters(97-122) because they will never occur, because
 // of toupper(c) getting passed into the function and then from {(123)
-// to ~(126)
+// to ~(126) if character is not in the specified range, the function
+// prints error message
 int calculateInputIndex(char c)
 {
     if (c >= ' ' && c <= '`')
@@ -97,16 +100,10 @@ int main(int argc, char *argv[])
     }
 
     char address[MAX_LINE_LENGTH];
-    char possibleChars[MAX_UNIQUE_CHARS];
-    char possibleString[MAX_LINE_LENGTH];
+    char possibleChars[MAX_UNIQUE_CHARS] = {'\0'};
+    char possibleString[MAX_LINE_LENGTH] = {'\0'};
     int found = 0;
     int lengthOfInput = (int)strlen(input);
-
-    // Initializing array with '\0' to later input chars
-    for (int i = 0; i < MAX_UNIQUE_CHARS; i++)
-    {
-        possibleChars[i] = '\0';
-    }
 
     // Loads lines to address variable until end of file is reached
     while (fgets(address, MAX_LINE_LENGTH, stdin) != NULL)

@@ -38,15 +38,19 @@ echo -e "Praha\nBrno\nBruntal\nBratislava" > test_01.txt
 run_test "test_01.txt" "" "Enable: BP"
 
 run_test "test_01.txt" "b" "Enable: R"
+
 run_test "test_01.txt" "B" "Enable: R"
 
 run_test "test_01.txt" "br" "Enable: ANU"
+
 run_test "test_01.txt" "BR" "Enable: ANU"
 
 run_test "test_01.txt" "brn" "Found: BRNO"
+
 run_test "test_01.txt" "BRN" "Found: BRNO"
 
 run_test "test_01.txt" "be" "Not found"
+
 run_test "test_01.txt" "BE" "Not found"
 
 # More complex file
@@ -57,9 +61,11 @@ run_test "test_02.txt" "" "Enable: BP"
 run_test "test_02.txt" "b" "Enable: ERU"
 
 run_test "test_02.txt" "br" "Enable: AEINU"
+
 run_test "test_02.txt" "BR" "Enable: AEINU"
 
 run_test "test_02.txt" "bru" "Enable: N"
+
 run_test "test_02.txt" "BRU" "Enable: N"
 
 run_test "test_02.txt" "brun" "Enable: ST"
@@ -90,6 +96,7 @@ run_test "test_04.txt" "" "Enable:  !123:;ABC_~"
 echo -e "TohleJeTestNaVicJakStoCharakteruDlouhejRadekJestliNahodouJsiTamNeudelalChybickuFrajereJustAskingYouKnowHeh" > test_05.txt
 
 run_test "test_05.txt" "" ""
+
 
 rm test_05.txt
 rm test_04.txt
